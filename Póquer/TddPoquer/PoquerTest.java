@@ -1,12 +1,8 @@
 package TddPoquer;
 
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,9 +18,13 @@ class PoquerTest {
 	public Carta ochoT;
 	public Carta reyT;
 	public Carta asT;
-	public List<Carta> mano1;
-	public List<Carta> mano2;
-	public List<Carta> mano3;
+	public Carta asC;
+	public Carta asP;
+	public Carta asD;
+	public List<Carta> pokerComun;
+	public List<Carta> color;
+	public List<Carta> trio;
+	public List<Carta> pokerDeAses;
 	
 	@BeforeEach
 	public void setUp() {
@@ -32,15 +32,19 @@ class PoquerTest {
 		this.cuatroD = new Carta(Valor.Cuatro, Palo.Diamante);
 		this.cuatroP = new Carta(Valor.Cuatro, Palo.Pica);
 		this.cuatroC = new Carta(Valor.Cuatro, Palo.Corazon);
+		this.seisC = new Carta(Valor.Seis, Palo.Corazon);
+		this.asD = new Carta(Valor.As, Palo.Diamante);
+		this.asP = new Carta(Valor.As, Palo.Pica);
+		this.asC = new Carta(Valor.As, Palo.Corazon);
 		this.cuatroT= new Carta(Valor.Cuatro, Palo.Trebol);
 		this.reinaT = new Carta(Valor.Reina, Palo.Trebol);
-		this.seisC = new Carta(Valor.Seis, Palo.Corazon);
 		this.ochoT = new Carta(Valor.Ocho, Palo.Trebol);
 		this.reyT = new Carta(Valor.Rey, Palo.Trebol);
 		this.asT = new Carta(Valor.As, Palo.Trebol);
-		this.mano1 = Arrays.asList(cuatroD, cuatroP, cuatroC, cuatroT, reinaT); //mano de poker
-		this.mano2 = Arrays.asList(ochoT,asT,reyT,cuatroT,reinaT); //mano de color
-		this.mano3 = Arrays.asList(cuatroD,cuatroP,cuatroC,reinaT,reyT); //mano de trio
+		this.pokerComun = Arrays.asList(cuatroD, cuatroP, cuatroC, cuatroT, reinaT); //mano de poker
+		this.color = Arrays.asList(ochoT,asT,reyT,cuatroT,reinaT); //mano de color
+		this.trio = Arrays.asList(cuatroD,cuatroP,cuatroC,reinaT,reyT); //mano de trio
+		this.pokerDeAses = Arrays.asList(asD, asP, asC, asT, reinaT); //otra mano de poker
 	}
 	
 	@Test
@@ -135,13 +139,26 @@ class PoquerTest {
 	@Test
 	void leGanaA() {
 		//exercise & verify
-		assertTrue(status.leGana(mano1, mano2));
+		assertTrue(status.leGana(pokerComun, color));
 		//no posee teardown
 	}
 	@Test
 	void noLeGanaA() {
 		//exercise & verify
-		assertFalse(status.leGana(mano2, mano1));
+		assertFalse(status.leGana(color, pokerComun));
+		//no posee teardown
+	}
+	// 
+	@Test
+	void leGana2ManosDePoker() {
+		//exercise & verify
+		assertTrue(status.leGana(pokerDeAses, pokerComun));
+		//no posee teardown
+	}
+	@Test
+	void noLeGana2ManosDePoker() {
+		//exercise & verify
+		assertFalse(status.leGana(pokerComun, pokerDeAses));
 		//no posee teardown
 	}
 

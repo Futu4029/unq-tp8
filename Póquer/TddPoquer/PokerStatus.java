@@ -57,10 +57,18 @@ public class PokerStatus {
 	public boolean leGana(List<Carta> mano1, List<Carta> mano2) {
 		Jugada resultado = this.definirJugada(mano1);
 		Jugada resultado2 = this.definirJugada(mano2);
-		boolean resultado3 = (resultado2.compareTo(resultado) > 0) ? true : false; 
+		boolean resultado3 = (resultado2.compareTo(resultado) > 0) ? true : 
+							 (resultado2.compareTo(resultado) == 0) ? this.desempate(mano1, mano2) : false; 
 		return resultado3;
 	}
 	
+	public boolean desempate(List<Carta> mano1, List<Carta> mano2) {
+		boolean resultado = this.esSuperior(this.definirJugada(mano1).mejorCarta(mano1),
+											this.definirJugada(mano2).mejorCarta(mano2));
+		return resultado;
+	}
+	
+
 	
 	
 	
